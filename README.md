@@ -10,7 +10,7 @@
 ## Installation
 
 ```sh
-$ npm install -g express-generator
+$ npm install -g gen4node
 ```
 
 ## Quick Start
