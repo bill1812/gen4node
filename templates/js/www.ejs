@@ -1,0 +1,127 @@
+#!/usr/bin/env node
+
+// www.localModules
+<% Object.keys(localModules).sort().forEach(function (variable) { -%>
+<%- varconst %> <%- variable %> = <%- localModules[variable] %>;
+<% }); -%>
+/** Module dependencies. @www.modules */
+<% Object.keys(modules).sort().forEach(function (variable) { -%>
+<%- varconst %> <%- variable %> = require('<%- modules[variable] %>');
+<% }); -%>
+<%- varconst %> debug = require('debug')('<%- name %>:server');
+
+// www.uses
+<% uses.forEach(function (use) { -%>
+app.use(<%- use %>);
+<% }); -%>
+
+// www.exportModules
+<% Object.keys(exportModules).sort().forEach(function (variable) { -%>
+<%- varconst %> <%- variable %> = <%- exportModules[variable] %>;
+<% }); -%>
+
+/** Get port from environment and store in Express. */
+<%- varconst %> port = normalizePort(process.env.PORT || '8080');
+app.set('port', port);
+
+/** Create HTTP server. */
+<%- varconst %> server = http.createServer(app);
+
+/** Listen on provided port, on all network interfaces. */
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+/** Normalize a port into a number, string, or false. */
+function normalizePort(val) {
+  <%- varconst %> parsedPort = parseInt(val, 10);
+
+  if (isNaN(parsedPort)) {
+    // named pipe
+    return val;
+  }
+
+  if (parsedPort >= 0) {
+    // port number
+    return parsedPort;
+  }
+  return false;
+}
+
+/** Event listener for HTTP server "error" event. */
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  /*! ES6 support */
+<% if (es6) { -%>
+  <%- varconst %> bind = typeof port === 'string' ? `Pipe ${port}` : `Port ${port}`;
+<% } else { -%>
+  <%- varconst %> bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
+<% } -%>
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+<% if (es6) { -%>
+    console.error(`${bind} requires elevated privileges`);
+<% } else { -%>
+    console.error(bind + ' requires elevated privileges');
+<% } -%>
+      process.exit(1);
+  //  break;
+    case 'EADDRINUSE':
+<% if (es6) { -%>
+    console.error(`${bind} is already in use`);
+<% } else { -%>
+    console.error(bind + ' is already in use');
+<% } -%>
+      process.exit(1);
+  //  break;
+    default:
+      throw error;
+  }
+}
+
+/** Event listener for HTTP server "listening" event. */
+function onListening() {
+  <%- varconst %> addr = server.address();
+<% if (es6) { -%>
+  <%- varconst %> bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
+<% } else { -%>
+  <%- varconst %> bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+<% } -%>
+
+  // www.comfort
+<% comfort.sort().forEach(function (use) { -%>
+<% if (es6) { -%>
+  console.log(`\x1b[37m\x1b[0m`, `process.env.<%- use %>:`, `\x1b[32m\x1b[1m`, process.env.<%- use %>, `\x1b[37m\x1b[0m`);
+<% } else { -%>
+  console.log('\x1b[37m\x1b[0m', 'process.env.<%- use %>:', '\x1b[32m\x1b[1m', process.env.<%- use %>, '\x1b[37m\x1b[0m');
+<% } -%>
+<% }); -%>
+<% if (es6) { -%>
+  console.log(`frameguard:`, `\x1b[35m\x1b\[1m`, xframeorigin, `\x1b[37m\x1b[0m`);
+  console.log(`\x1b[37m\x1b[0m`, `===`, `\x1b[32m\x1b[1m`, __dirname, `\x1b[37m\x1b[0m`, `===============`);
+  debug(`Debugging on:`, `\x1b[33m\x1b[1m`, bind);
+<% } else { -%>
+  console.log('frameguard:', '\x1b[35m\x1b\[1m', xframeorigin, '\x1b[37m\x1b[0m');
+  console.log('\x1b[37m\x1b[0m', "===", '\x1b[32m\x1b[1m', __dirname, '\x1b[37m\x1b[0m', "===============");
+  debug('Debugging on:', '\x1b[33m\x1b[1m', bind);
+<% } -%>
+  if (process.env.DEBUG === '' || process.env.DEBUG === ' ' || process.env.DEBUG === null || process.env.DEBUG === undefined) {
+<% if (es6) { -%>
+    console.log(`Listening on:`, `\x1b[33m\x1b[1m`, bind, `\x1b[37m\x1b[0m`);
+<% } else { -%>
+    console.log('Listening on:', '\x1b[33m\x1b[1m', bind, '\x1b[37m\x1b[0m');
+<% } -%>
+  }
+}
+
+// www.exportModules
+<% Object.keys(exportModules).sort().forEach(function (variable) { -%>
+module.exports = <%- variable %>;
+<% }); -%>
+
+/* \express-generator\templates\js\www.ejs */
