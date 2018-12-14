@@ -2,7 +2,10 @@
   "name": "gen4node",
   "description": "Express' application generator modified version",
   "version": "0.0.1",
-  "author": "bill1812",
+  "author": {
+    "name": "bill1812",
+    "email": "bill1812@users.noreply.github.com"
+  },
   "bugs": {
     "url": "https://github.com/bill1812/gen4node/issues"
   },
