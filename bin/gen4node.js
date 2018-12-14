@@ -45,7 +45,7 @@ before(program, 'unknownOption', function () {
 });
 
 program
-  .name('express')
+  .name('gen4node')
   .version(VERSION, '    --version')
   .usage('[options] [dir]')
   .option('-e, --ejs', 'add ejs engine support', renamedOption('--ejs', '--view=ejs'))
@@ -152,7 +152,7 @@ function createApplication(name, dir) {
     ],
     homepage: 'https://github.com/ACCOUNT',
     keywords: [
-      'express',
+      'gen4node',
       'node'
     ],
     license: 'UNLICENSED',
@@ -246,7 +246,7 @@ function createApplication(name, dir) {
 // 23:23 08-Nov-2018 TEST
 
   // Local variables
-  app.locals.localVariable.app = "express()";
+  app.locals.localVariable.app = "gen4node()";
 
   // Local LET variables
   app.locals.localLetVar.mimeTIE = "'text/html'";
@@ -258,7 +258,7 @@ function createApplication(name, dir) {
   app.locals.modules.xfo = "./bin/www";
 
   // Express
-  app.locals.modules.express = 'express';
+  app.locals.modules.gen4node = 'express';
 //app.locals.uses.push('');
   pkg.dependencies['express'] = '^4.16.4';
 
@@ -700,4 +700,4 @@ function write(file, str, mode) {
   console.log('   \x1b[36mcreate\x1b[0m : ' + file);
 }
 
-/* \express-generator\bin\express-cli.js */
+/* \express-generator\bin\express-cli.js => gen4node.js */
