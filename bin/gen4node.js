@@ -53,10 +53,10 @@ program
   .option('    --hbs', 'add handlebars engine support', renamedOption('--hbs', '--view=hbs'))
   .option('-H, --hogan', 'add hogan.js engine support', renamedOption('--hogan', '--view=hogan'))
   .option('-v, --view <engine>', 'add view <engine> support (dust|ejs|hbs|hjs|jade|pug|twig|vash) (defaults to pug)')
-  .option('    --no-view', 'use static html instead of view engine')
+  .option('-X, --no-view', 'use static html instead of view engine')
   .option('-c, --css <engine>', 'add stylesheet <engine> support (less|stylus|compass|sass) (defaults to plain css)')
   .option('    --git', 'add .gitignore')
-//.option('    --test', 'add mocha support')
+  .option('    --test', 'add mocha support')
   .option('-f, --force', 'force on non-empty directory');
 //  .parse(process.argv);
 
@@ -246,7 +246,7 @@ function createApplication(name, dir) {
 // 23:23 08-Nov-2018 TEST
 
   // Local variables
-  app.locals.localVariable.app = "gen4node()";
+  app.locals.localVariable.app = "express()";
 
   // Local LET variables
   app.locals.localLetVar.mimeTIE = "'text/html'";
@@ -258,7 +258,7 @@ function createApplication(name, dir) {
   app.locals.modules.xfo = "./bin/www";
 
   // Express
-  app.locals.modules.gen4node = 'express';
+  app.locals.modules.express = 'express';
 //app.locals.uses.push('');
   pkg.dependencies['express'] = '^4.16.4';
 
@@ -485,18 +485,30 @@ function createApplication(name, dir) {
       pkg.dependencies.vash = '~0.12.4';
       break;
     default:
-      app.locals.view = false;
+      /*!
+        when program.options = --no-view, in app.js.ejs :
+        <% if (view) { -%>
+          ...
+        <% } -%>
+        app.locals.view MUST be set to 'true'
+      */
+      app.locals.view = true; // false;
       break;
   }
 
   // Static files
-  if (program.es6) {
-    app.locals.uses.push("express.static(path.join(__dirname, 'public'),\n  { dotfiles: 'ignore',\n    etag: true,\n    extensions: ['htm', 'html'],\n    fallthrough: true,\n    immutable: false,\n    index: false,\n    lastModified: true,\n    maxAge: '1h',\n    redirect: true,\n    setHeaders: (res, path, stat) => {\n      res.set('x-timestamp', Date.now());\n      mimeTIE = mimetype.lookup(path);\n      if (mimeTIE !== 'text/html') {\n        res.setHeader('Cache-Control', 'public, max-age=1800');\n        res.setHeader('Expires', new Date(Date.now() + 2 * 60* 60).toUTCString());\n    //  console.log('path: ' + path);\n      }\n    //  console.log('Current mimeTypes: ' + mimeTIE);\n    }\n  }\n)");
+  if (!(program.view)) {
+    app.locals.uses.push("express.static(path.join(__dirname, 'public'))");
   } else {
-    app.locals.uses.push("express.static(path.join(__dirname, 'public'),\n  { dotfiles: 'ignore',\n    etag: true,\n    extensions: ['htm', 'html'],\n    fallthrough: true,\n    immutable: false,\n    index: false,\n    lastModified: true,\n    maxAge: '1h',\n    redirect: true,\n    setHeaders: function (res, path, stat) {\n      res.set('x-timestamp', Date.now());\n      mimeTIE = mimetype.lookup(path);\n      if (mimeTIE !== 'text/html') {\n        res.setHeader('Cache-Control', 'public, max-age=1800');\n        res.setHeader('Expires', new Date(Date.now() + 2 * 60* 60).toUTCString());\n    //  console.log('path: ' + path);\n      }\n    //  console.log('Current mimeTypes: ' + mimeTIE);\n    }\n  }\n)");
+    if (program.es6) {
+      app.locals.uses.push("express.static(path.join(__dirname, 'public'),\n  { dotfiles: 'ignore',\n    etag: true,\n    extensions: ['htm', 'html'],\n    fallthrough: true,\n    immutable: false,\n    index: false,\n    lastModified: true,\n    maxAge: '1h',\n    redirect: true,\n    setHeaders: (res, path, stat) => {\n      res.set('x-timestamp', Date.now());\n      mimeTIE = mimetype.lookup(path);\n      if (mimeTIE !== 'text/html') {\n        res.setHeader('Cache-Control', 'public, max-age=1800');\n        res.setHeader('Expires', new Date(Date.now() + 2 * 60* 60).toUTCString());\n    //  console.log('path: ' + path);\n      }\n    //  console.log('Current mimeTypes: ' + mimeTIE);\n    }\n  }\n)");
+    } else {
+      app.locals.uses.push("express.static(path.join(__dirname, 'public'),\n  { dotfiles: 'ignore',\n    etag: true,\n    extensions: ['htm', 'html'],\n    fallthrough: true,\n    immutable: false,\n    index: false,\n    lastModified: true,\n    maxAge: '1h',\n    redirect: true,\n    setHeaders: function (res, path, stat) {\n      res.set('x-timestamp', Date.now());\n      mimeTIE = mimetype.lookup(path);\n      if (mimeTIE !== 'text/html') {\n        res.setHeader('Cache-Control', 'public, max-age=1800');\n        res.setHeader('Expires', new Date(Date.now() + 2 * 60* 60).toUTCString());\n    //  console.log('path: ' + path);\n      }\n    //  console.log('Current mimeTypes: ' + mimeTIE);\n    }\n  }\n)");
+    }
   }
+
   // 03:11 06-Dec-2018 TEST framework example from
-  //github.com/expressjs/generator/pull/220/commits/b58278700212e500d81f06d0a068973885214c72
+  // github.com/expressjs/generator/pull/220/commits/b58278700212e500d81f06d0a068973885214c72
   /** Test framework
   if (program.test) {
     mkdir(dir, 'test')
