@@ -49,14 +49,16 @@ program
   .version(VERSION, '    --version')
   .usage('[options] [dir]')
   .option('-e, --ejs', 'add ejs engine support', renamedOption('--ejs', '--view=ejs'))
-  .option('    --pug', 'add pug engine support', renamedOption('--pug', '--view=pug'))
+  .option('-p  --pug', 'add pug engine support', renamedOption('--pug', '--view=pug'))
   .option('    --hbs', 'add handlebars engine support', renamedOption('--hbs', '--view=hbs'))
-  .option('-H, --hogan', 'add hogan.js engine support', renamedOption('--hogan', '--view=hogan'))
-  .option('-v, --view <engine>', 'add view <engine> support (dust|ejs|hbs|hjs|jade|pug|twig|vash) (defaults to pug)')
+  .option('    --hogan', 'add hogan.js engine support', renamedOption('--hogan', '--view=hogan'))
+  .option('    --view <engine>', 'add view <engine> support (dust|ejs|hbs|hjs|jade|pug|twig|vash) (defaults to pug)')
   .option('-X, --no-view', 'use static html instead of view engine')
   .option('-c, --css <engine>', 'add stylesheet <engine> support (less|stylus|compass|sass) (defaults to plain css)')
-  .option('    --git', 'add .gitignore')
-  .option('    --test', 'add mocha support')
+  .option('-g, --git', 'add .gitignore')
+  .option('-t, --test', 'add mocha support')
+  .option('-W, --watch <type>', 'add [nodemon] support')  /* from github.com/remy/nodemon */
+  .option('-w, --no-watch', 'without nodemon support')
   .option('-f, --force', 'force on non-empty directory');
 //  .parse(process.argv);
 
@@ -64,6 +66,10 @@ if (semver.gte(process.version, '6.0.0')) {
   program.option('    --es6', 'use ES6 (ES2015) language features');
 }
 program.parse(process.argv);
+
+/// concept from github.com/tj/commander.js/blob/v2.19.0/examples/pizza
+var nodemon = true === program.watch ? 'nodemon' : program.watch || 'no';
+//  console.log('nodemon: ' + nodemon);
 
 if (!exit.exited) {
   main();
@@ -115,7 +121,7 @@ function copyTemplateMulti(fromDir, toDir, nameGlob) {
       copyTemplate(path.join(fromDir, name), path.join(toDir, name));
     });
 }
-
+  console.log('program.watch: ' + program.watch);
 /**
  * Create application at the given directory.
  *
@@ -141,7 +147,7 @@ function createApplication(name, dir) {
     deprecated: false,
     description: 'Express Skeleton Website',
     devDependencies: {
-      'nodemon': '^1.18.6'
+//    'nodemon': '^1.18.9'
     },
     engines: {
       'node': '>=8.12.0'
@@ -163,11 +169,18 @@ function createApplication(name, dir) {
       'url': 'git://github.com/ACCOUNT/project.git'
     },
     scripts: {
-      start: 'node ./bin/www',
-      devstart: 'nodemon ./bin/www'
+//    start: 'node ./bin/www',
+//    devstart: 'nodemon ./bin/www'
     },
     version: '0.0.0'
   };
+  /// 
+  if (nodemon === 'nodemon') {
+    pkg.devDependencies = { 'nodemon': '^1.18.9' };
+    pkg.scripts = { 'start': 'node ./bin/www', 'devstart': 'nodemon ./bin/www' };
+  } else {
+    pkg.scripts = { 'start': 'node ./bin/www' };
+  }
 
   // JavaScript
   var app = loadTemplate('js/app.js');
@@ -446,7 +459,7 @@ function createApplication(name, dir) {
   app.locals.localModules.usersRouter = './routes/users';
   app.locals.mounts.push({ path: '/users', code: 'usersRouter' });
 
-  // Template support
+  app.locals.vieweng = true; // Template support
   switch (program.view) {
     case 'dust':
       app.locals.modules.adaro = 'adaro';
@@ -492,7 +505,8 @@ function createApplication(name, dir) {
         <% } -%>
         app.locals.view MUST be set to 'true'
       */
-      app.locals.view = true; // false;
+      app.locals.view = true;     // false;
+      app.locals.vieweng = false; // used in \gen4node\templates\js\app.js.ejs #34
       break;
   }
 
@@ -712,4 +726,4 @@ function write(file, str, mode) {
   console.log('   \x1b[36mcreate\x1b[0m : ' + file);
 }
 
-/* \express-generator\bin\express-cli.js => gen4node.js */
+/* \express-generator\bin\express-cli.js => gen4node\bin\gen4node.js */

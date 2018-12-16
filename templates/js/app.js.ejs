@@ -31,7 +31,7 @@ app.use(<%- use %>);
 app.use(<%= mount.path %>, <%- mount.code %>);
 <% }); -%>
 
-<% if (view) { -%>
+<% if (vieweng) { -%>
 // view engine setup @app.view.render
 <% if (view.render) { -%>
 app.engine('<%- view.engine %>', <%- view.render %>);
@@ -113,4 +113,4 @@ app.use(<%- genFunc(['err', 'req', 'res', 'next']) %> {
 <% } -%>
 module.exports = app;
 
-/* express-generator\templates\js\app.js.ejs */
+/* \gen4node\templates\js\app.js.ejs */
