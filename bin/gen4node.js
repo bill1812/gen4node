@@ -124,7 +124,7 @@ function copyTemplateMulti(fromDir, toDir, nameGlob) {
       copyTemplate(path.join(fromDir, name), path.join(toDir, name));
     });
 }
-  console.log('program.watch: ' + program.watch);
+//console.log('program.watch: ' + program.watch);
 /**
  * Create application at the given directory.
  *
@@ -365,7 +365,9 @@ function createApplication(name, dir) {
       copyTemplateMulti('css', dir + '/styl', '*.styl');
       break;
     case 'compass':
-      copyTemplateMulti('css', dir + '/public/css', '*.scss');
+  //  copyTemplateMulti('css', dir + '/public/css', '*.scss');
+      mkdir(dir, 'scss');
+      copyTemplateMulti('css', dir + '/scss', '*.scss');
       break;
     case 'sass':
   //  copyTemplateMulti('css', dir + '/public/stylesheets', '*.sass');
@@ -425,7 +427,14 @@ function createApplication(name, dir) {
   switch (program.css) {
     case 'compass':
       app.locals.modules.compass = 'node-compass';
-      app.locals.uses.push("compass({ mode: 'expanded' })");
+      app.locals.uses.push(
+        "compass({\n" +
+        "  mode: 'expanded', // options: [expanded], 'compress', 'nested', 'compressed', 'compact'\n" +
+        "  css : 'css',\n" + // css compiled stylesheets output path
+        "  sass: path.join(__dirname, 'scss'),\n" +     // The folder inside the project to find sCss in.
+        "  project: path.join(__dirname, 'public')\n" + // dest: /public/css
+        "})"
+      );
       pkg.dependencies['node-compass'] = '0.2.3';
       break;
     case 'less':
@@ -464,7 +473,7 @@ function createApplication(name, dir) {
 
   app.locals.vieweng = true; // Template support
   switch (program.view) {
-    case 'dust':
+    case 'dust':  // github.com/krakenjs/adaro
       app.locals.modules.adaro = 'adaro';
       app.locals.view = {
         engine: 'dust',
@@ -472,7 +481,7 @@ function createApplication(name, dir) {
       };
       pkg.dependencies.adaro = '~1.0.4';
       break;
-    case 'ejs':  // 
+    case 'ejs':  // github.com/mde/ejs
       app.locals.view = { engine: 'ejs' };
       pkg.dependencies.ejs = '~2.5.8'; // '~2.5.7';
       break;

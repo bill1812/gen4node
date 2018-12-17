@@ -6,7 +6,7 @@
 
 Supported format: [dust](https://github.com/krakenjs/adaro),  [ejs](https://github.com/mde/ejs),  [pug](https://github.com/pugjs/pug) renamed from jade,  [hbs](https://github.com/pillarjs/hbs),  [hogan](https://github.com/nullfirm/hjs/) for express 3.x,  [twig](https://github.com/twigjs/twig.js/),  [vash](https://github.com/kirbysayshi/vash/)
 
-Stylesheet format: css,  [less](https://github.com/emberfeather/less.js-middleware/),  [stylus](https://github.com/stylus/stylus),  [compass](),  [sass/scss](https://github.com/sass/node-sass-middleware)
+Stylesheet format: css,  [less](https://github.com/emberfeather/less.js-middleware/),  [stylus](https://github.com/stylus/stylus),  [compass](https://github.com/nathggns/node-compass/),  [sass/scss](https://github.com/sass/node-sass-middleware)
 
 ## Installation
 
