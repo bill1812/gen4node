@@ -5,7 +5,10 @@ var fs  = require('fs');
 var minimatch = require('minimatch');
 var mkdirp = require('mkdirp');
 var path   = require('path');
+
+/* modified version built-in @\gen4node\bin\commander.js */
 var program  = require('commander');
+
 var readline = require('readline');
 var sortedObject = require('sorted-object');
 var util   = require('util');
@@ -432,7 +435,7 @@ function createApplication(name, dir) {
       } else {
         app.locals.uses.push("lessMiddleware(path.join(__dirname, 'less'), {\n  // github.com/emberfeather/less.js-middleware/wiki/Examples\n  // less-middleware/lib/middleware.js\n  // option:\n  // cacheFile, [debug], [dest], [force], [once], pathRoot, postprocess, [preprocess], [render], storeCss, storeSourcemap\n  /**\n   * @debug : true\n   * pathname: /css/style.css\n   * source  : \\project\\less\\style.less\n   * dest    : \\project\\public\\css\\style.css\n  */\n  debug : true,\n  dest  : path.join(__dirname, 'public'),\n  force : false,\n  once  : false,\n  render: { compress: false },\n  preprocess: {\n    path: function (pathname, req) { return pathname.replace('\\\\css', ''); }\n  }\n})");
       }
-      pkg.dependencies['less-middleware'] = '~2.2.1'; // '^3.0.1';
+      pkg.dependencies['less-middleware'] = '~2.2.1'; // '^3.0.1' had path resolve problem
       break;
     case 'sass':
       app.locals.modules.sassMiddleware = 'node-sass-middleware';
@@ -469,15 +472,15 @@ function createApplication(name, dir) {
       };
       pkg.dependencies.adaro = '~1.0.4';
       break;
-    case 'ejs':
+    case 'ejs':  // 
       app.locals.view = { engine: 'ejs' };
-      pkg.dependencies.ejs = '~2.5.7';
+      pkg.dependencies.ejs = '~2.5.8'; // '~2.5.7';
       break;
-    case 'hbs':
+    case 'hbs':  // github.com/pillarjs/hbs
       app.locals.view = { engine: 'hbs' };
       pkg.dependencies.hbs = '~4.0.1';
       break;
-    case 'hjs':
+    case 'hjs':  // express 3.x: github.com/nullfirm/hjs/
       app.locals.view = { engine: 'hjs' };
       pkg.dependencies.hjs = '~0.0.6';
       break;
@@ -485,17 +488,17 @@ function createApplication(name, dir) {
       app.locals.view = { engine: 'jade' };
       pkg.dependencies.jade = '~1.11.0';
       break;
-    case 'pug':
+    case 'pug':  // github.com/pugjs/pug
       app.locals.view = { engine: 'pug' };
-      pkg.dependencies.pug = '^2.0.3';
+      pkg.dependencies.pug = '^2.0.3'; // '2.0.0-beta11'
       break;
-    case 'twig':
+    case 'twig': // github.com/twigjs/twig.js/
       app.locals.view = { engine: 'twig' };
-      pkg.dependencies.twig = '~0.10.3';
+      pkg.dependencies.twig = '^1.12.0'; // '~0.10.3';
       break;
-    case 'vash':
+    case 'vash': // github.com/kirbysayshi/vash/
       app.locals.view = { engine: 'vash' };
-      pkg.dependencies.vash = '~0.12.4';
+      pkg.dependencies.vash = '~0.12.6'; // '~0.12.4';
       break;
     default:
       /*!
