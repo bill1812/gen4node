@@ -4,7 +4,7 @@
 
 [Express-generator](https://github.com/expressjs/generator) Modified version for Windows test
 
-Supported format: [dust](https://github.com/krakenjs/adaro) still install ENOENT here,  [ejs](https://github.com/mde/ejs),  [pug](https://github.com/pugjs/pug) renamed from jade,  [hbs](https://github.com/pillarjs/hbs),  [hogan](https://github.com/nullfirm/hjs/) for express 3.x,  [twig](https://github.com/twigjs/twig.js/),  [vash](https://github.com/kirbysayshi/vash/)
+Supported format: [dust](https://github.com/krakenjs/adaro),  [ejs](https://github.com/mde/ejs),  [pug](https://github.com/pugjs/pug) renamed from jade,  [hbs](https://github.com/pillarjs/hbs),  [hogan](https://github.com/nullfirm/hjs/) for express 3.x,  [twig](https://github.com/twigjs/twig.js/),  [vash](https://github.com/kirbysayshi/vash/)
 
 Stylesheet format: css,  [less](https://github.com/emberfeather/less.js-middleware/),  [stylus](https://github.com/stylus/stylus),  [compass](),  [sass/scss](https://github.com/sass/node-sass-middleware)
 
