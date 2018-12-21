@@ -47,16 +47,16 @@ Start with [nodemon](https://github.com/remy/nodemon) :
 This generator can also be further configured with the following command line flags.
 
         --version        output the version number
-    -e, --ejs            add ejs engine support
-    -p  --pug            add pug engine support
+        --ejs            add ejs engine support
+        --pug            add pug engine support
         --hbs            add handlebars engine support
         --hogan          add hogan.js engine support
         --view <engine>  add view <engine> support (dust|ejs|hbs|hjs|jade|pug|twig|vash) (defaults to pug)
     -X, --no-view        use static html instead of view engine
-    -c, --css <engine>   add stylesheet <engine> support (less|stylus|compass|sass) (defaults to plain css)
+        --css <engine>   add stylesheet <engine> support (less|stylus|compass|sass) (defaults to plain css)
     -g, --git            add .gitignore
     -t, --test           add mocha support (not finish yet)
-    -W, --watch <type>   add [nodemon] support
+        --watch <type>   add [nodemon] support
     -w, --no-watch       without nodemon support
     -f, --force          force on non-empty directory
         --es6            use ES6 (ES2015) language features

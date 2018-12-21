@@ -51,16 +51,16 @@ program
   .name('gen4node')
   .version(VERSION, '    --version')
   .usage('[options] [dir]')
-  .option('-e, --ejs', 'add ejs engine support', renamedOption('--ejs', '--view=ejs'))
-  .option('-p  --pug', 'add pug engine support', renamedOption('--pug', '--view=pug'))
+  .option('    --ejs', 'add ejs engine support', renamedOption('--ejs', '--view=ejs'))
+  .option('    --pug', 'add pug engine support', renamedOption('--pug', '--view=pug'))
   .option('    --hbs', 'add handlebars engine support', renamedOption('--hbs', '--view=hbs'))
   .option('    --hogan', 'add hogan.js engine support', renamedOption('--hogan', '--view=hogan'))
   .option('    --view <engine>', 'add view <engine> support (dust|ejs|hbs|hjs|jade|pug|twig|vash) (defaults to pug)')
   .option('-X, --no-view', 'use static html instead of view engine')
-  .option('-c, --css <engine>', 'add stylesheet <engine> support (less|stylus|compass|sass) (defaults to plain css)')
+  .option('    --css <engine>', 'add stylesheet <engine> support (less|stylus|compass|sass) (defaults to plain css)')
   .option('-g, --git', 'add .gitignore')
   .option('-t, --test', 'add mocha support')
-  .option('-W, --watch <type>', 'add [nodemon] support')  /* from github.com/remy/nodemon */
+  .option('    --watch <type>', 'add [nodemon] support')  /* from github.com/remy/nodemon */
   .option('-w, --no-watch', 'without nodemon support')
   .option('-f, --force', 'force on non-empty directory');
 //  .parse(process.argv);
@@ -140,6 +140,7 @@ function createApplication(name, dir) {
       'name': 'NAME',
       'email': 'NAME@users.noreply.github.com'
     },
+    bin: '',
     bugs: {
       'url': 'https://github.com/ACCOUNT/project/issues'
     },
@@ -151,6 +152,11 @@ function createApplication(name, dir) {
     description: 'Express Skeleton Website',
     devDependencies: {
 //    'nodemon': '^1.18.9'
+    },
+    directories: {
+      'bin': './bin',
+      'public': './public',
+      'routes': './routes'
     },
     engines: {
       'node': '>=8.12.0'
@@ -165,6 +171,7 @@ function createApplication(name, dir) {
       'node'
     ],
     license: 'UNLICENSED',
+    main: '',
     name: name,
     private: true,
     repository: {
