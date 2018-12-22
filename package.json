@@ -47,25 +47,17 @@
   "bin": {
     "gen4node": "./bin/gen4node.js"
   },
-  "devDependencies": {
-    "eslint": "4.19.1",
-    "eslint-config-standard": "11.0.0",
-    "eslint-plugin-import": "2.12.0",
-    "eslint-plugin-node": "6.0.1",
-    "eslint-plugin-promise": "3.8.0",
-    "eslint-plugin-standard": "3.1.0",
-    "mocha": "^5.2.0",
-    "rimraf": "2.5.4",
-    "supertest": "^3.3.0",
-    "tmp": "0.0.33",
-    "tree-kill": "1.2.0",
-    "validate-npm-package-name": "3.0.0"
+  "devDependencies": {},
+  "directories": {
+    "bin": "./bin",
+    "templates": "./templates"
   },
   "engines": {
     "node": ">= 8.12"
   },
   "files": [
     "LICENSE",
+    "README.md",
     "bin/",
     "templates/"
   ],
