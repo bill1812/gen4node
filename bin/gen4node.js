@@ -7,7 +7,7 @@ var mkdirp = require('mkdirp');
 var path   = require('path');
 
 /* modified version built-in @\gen4node\bin\commander.js */
-var program  = require('commander');
+var program  = require('./commander');
 
 var readline = require('readline');
 var sortedObject = require('sorted-object');
