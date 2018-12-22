@@ -60,8 +60,8 @@ program
   .option('    --css <engine>', 'add stylesheet <engine> support (less|stylus|compass|sass) (defaults to plain css)')
   .option('-g, --git', 'add .gitignore')
   .option('-t, --test', 'add mocha support')
-  .option('    --watch <type>', 'add [nodemon] support')  /* from github.com/remy/nodemon */
-  .option('-w, --no-watch', 'without nodemon support')
+  .option('    --watch <type>', 'add [nodemon] supported from github.com/remy/nodemon')
+//.option('-w, --no-watch', 'without nodemon support (Default)')
   .option('-f, --force', 'force on non-empty directory');
 //  .parse(process.argv);
 
@@ -69,10 +69,6 @@ if (semver.gte(process.version, '6.0.0')) {
   program.option('    --es6', 'use ES6 (ES2015) language features');
 }
 program.parse(process.argv);
-
-/// concept from github.com/tj/commander.js/blob/v2.19.0/examples/pizza
-var nodemon = true === program.watch ? 'nodemon' : program.watch || 'no';
-//  console.log('nodemon: ' + nodemon);
 
 if (!exit.exited) {
   main();
@@ -184,8 +180,8 @@ function createApplication(name, dir) {
     },
     version: '0.0.0'
   };
-  /// 
-  if (nodemon === 'nodemon') {
+
+  if (program.watch === 'nodemon') {
     pkg.devDependencies = { 'nodemon': '^1.18.9' };
     pkg.scripts = { 'start': 'node ./bin/www', 'devstart': 'nodemon ./bin/www' };
   } else {
