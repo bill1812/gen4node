@@ -308,8 +308,26 @@ function createApplication(name, dir) {
   pkg.dependencies['serve-static'] = '^1.13.2';
 */
   // Body parsers
-  app.locals.uses.push('express.json()');
-  app.locals.uses.push('express.urlencoded({ extended: false })');
+  app.locals.uses.push(
+    'express.json({ // default: expressjs.com/en/api.html#express.json\n' +
+    '  inflate: true,\n' +
+    "  limit: '100kb',\n" +
+    '  reviver: null,\n' +
+    '  strict: true,\n' +
+    "  type: 'application/json',\n" +
+    '  verify: undefined\n' +
+    '})'
+  );
+  app.locals.uses.push(
+    'express.urlencoded({ // default: expressjs.com/en/api.html#express.urlencoded\n' +
+    '  extended: false,\n' +
+    '  inflate: true,\n' +
+    "  limit: '100kb',\n" +
+    '  parameterLimit: 1000,\n' +
+    "  type: 'application/x-www-form-urlencoded',\n" +
+    '  verify: undefined\n' +
+    '})'
+  );
 
   // Cookie parser
   // https://stackoverflow.com/questions/16209145/how-to-set-cookie-in-node-js-using-express-framework
